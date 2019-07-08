@@ -58,7 +58,9 @@ def update_sector_owners():
             defender = Score.get(Score.sector == sector_id, Score.faction == sector_id.owner_faction)
             attackers = Score.select().where(
                 Score.score > defender.score,
-                Score.faction != sector_id.owner_faction)
+                Score.faction != sector_id.owner_faction,
+                Score.sector == sector_id
+            )
             for attacker in attackers:
                 if attacker.score > defender.score:
                     defender = attacker
@@ -131,3 +133,8 @@ def create_scores():
                     faction=faction_key,
                     score=0
                 )
+
+
+def update_sectors():
+    update_sector_owners()
+    set_active_sectors()
