@@ -1,0 +1,101 @@
+from models import *
+
+
+def update_score(sector_id, faction_id, points):
+    Score.update(score=Score.score + points).where(
+            Score.sector == Sector.get_by_id(sector_id),
+            Score.faction == Faction.get_by_id(faction_id)
+    ).execute()
+
+
+def set_active_sectors():
+    Sector.update(active=False).execute()
+    with db.atomic():
+        for border in Border.select():
+            if border.sector_1.owner_faction != border.sector_2.owner_faction:
+                border.sector_1.active = True
+                border.sector_2.active = True
+                border.sector_1.save()
+                border.sector_2.save()
+
+
+def update_sector_owners():
+    active_sectors = Sector.select().where(Sector.active)
+    with db.atomic():
+        for sector_id in active_sectors:
+            defender = Score.get(Score.sector == sector_id, Score.faction == sector_id.owner_faction)
+            attackers = Score.select().where(
+                Score.score > defender.score,
+                Score.faction != sector_id.owner_faction)
+            for attacker in attackers:
+                if attacker.score > defender.score:
+                    defender = attacker
+
+            sector_id.owner_faction = Faction.get_by_id(defender.faction)
+            sector_id.save()
+        
+        Score.update(score=0).execute()
+
+
+def setup(conf_root):
+    sectors = conf_root.find('sectors').findall('sector')
+    factions = conf_root.find('factions').findall('faction')
+    create_tables()
+    create_factions(factions)
+    create_sectors(sectors)
+    create_borders(sectors)
+    create_scores()
+
+
+def create_tables():
+    # create tables
+    with db:
+        db.create_tables([Faction, Sector, Border, Score])
+
+
+def create_factions(factions):
+    # create faction records
+    with db.atomic():
+        for faction in factions:
+            Faction.create(
+                name=faction.find('name').text
+            )
+
+
+def create_sectors(sectors):
+    # create sector records
+    with db.atomic():
+        for sector in sectors:
+            Sector.create(
+                id=sector.find('id').text,
+                owner_faction=Faction.get_by_id(sector.find('startOwner').text),
+                owner_faction_default=Faction.get_by_id(sector.find('startOwner').text),
+                active=False
+            )
+
+
+def create_borders(sectors):
+    # create border records
+    with db.atomic():
+        for sector in sectors:
+            for border in sector.findall('border'):
+                if not Border.select().where(
+                        Border.sector_1 == border.text,
+                        Border.sector_2 == sector.find('id').text
+                ):
+                    Border.create(
+                        sector_1=sector.find('id').text,
+                        sector_2=border.text
+                    )
+
+
+def create_scores():
+    # create score records
+    with db.atomic():
+        for faction_key in Faction.select():
+            for sector_key in Sector.select():
+                Score.create(
+                    sector=sector_key,
+                    faction=faction_key,
+                    score=0
+                )

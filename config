@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<openToW>
+    <factions>
+        <faction>
+            <name>Red</name>
+        </faction>
+        <faction>
+            <name>Blue</name>
+        </faction>
+    </factions>
+    <sectors>
+        <sector>
+            <id>1</id>
+            <name>Red HQ</name>
+            <startOwner>Red</startOwner>
+            <border>2</border>
+            <border>3</border>
+        </sector>
+        <sector>
+            <id>2</id>
+            <name>Blue HQ</name>
+            <startOwner>Red</startOwner>
+            <border>1</border>
+            <border>4</border>
+        </sector>
+        <sector>
+            <id>3</id>
+            <name>Blue HQ</name>
+            <startOwner>Red</startOwner>
+            <border>1</border>
+            <border>4</border>
+        </sector>
+        <sector>
+            <id>4</id>
+            <name>Blue HQ</name>
+            <startOwner>Red</startOwner>
+            <border>2</border>
+            <border>3</border>
+            <border>5</border>
+        </sector>
+        <sector>
+            <id>5</id>
+            <name>Blue HQ</name>
+            <startOwner>Blue</startOwner>
+            <border>4</border>
+            <border>6</border>
+            <border>7</border>
+        </sector>
+        <sector>
+            <id>6</id>
+            <name>Blue HQ</name>
+            <startOwner>Blue</startOwner>
+            <border>5</border>
+            <border>8</border>
+        </sector>
+        <sector>
+            <id>7</id>
+            <name>Blue HQ</name>
+            <startOwner>Blue</startOwner>
+            <border>5</border>
+            <border>8</border>
+        </sector>
+        <sector>
+            <id>8</id>
+            <name>Blue HQ</name>
+            <startOwner>Blue</startOwner>
+            <border>6</border>
+            <border>7</border>
+        </sector>
+    </sectors>
+</openToW>
