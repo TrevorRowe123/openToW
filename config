@@ -68,4 +68,7 @@
             <border>7</border>
         </sector>
     </sectors>
+    <settings>
+        <timer>60</timer>
+    </settings>
 </openToW>
