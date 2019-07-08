@@ -6,10 +6,10 @@ import queries
 @cherrypy.tools.json_in()
 @cherrypy.tools.json_out()
 class Sector(object):
-    def GET(self, sector):
+    def GET(self, id):
         return {
-            'owner': queries.get_sector_owner(sector),
-            'scores': queries.get_sector_scores(sector),
+            'owner': queries.get_sector_owner(id),
+            'scores': queries.get_sector_scores(id),
             'active': queries.sector_is_active(5)
         }
 
@@ -26,10 +26,13 @@ class Sector(object):
 
 
 @cherrypy.expose
+@cherrypy.tools.json_out()
 class Faction(object):
-    @cherrypy.tools.accept(media="application/json")
-    def GET(self):
-        return "Get method".encode("UTF-8")
+    def GET(self, id):
+        return {
+            'owned': queries.get_owned_sectors(id),
+            'scores': queries.get_faction_scores(id)
+        }
 
 
 def start():

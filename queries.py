@@ -1,6 +1,22 @@
 from models import *
 
 
+def get_owned_sectors(faction_id):
+    sector_list = []
+    query_sector = Sector.select().where(Sector.owner_faction == faction_id)
+    for sector in query_sector:
+        sector_list.append(sector.id)
+    return sector_list
+
+
+def get_faction_scores(faction_id):
+    dict_scores = {}
+    scores = Score.select().where(Score.faction == faction_id)
+    for score in scores:
+        dict_scores[score.sector.id] = score.score
+    return dict_scores
+
+
 def sector_is_active(sector_id):
     return Sector.get(Sector.id == sector_id).active
 
