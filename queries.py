@@ -5,6 +5,18 @@ def sector_is_active(sector_id):
     return Sector.get(Sector.id == sector_id).active
 
 
+def get_sector_scores(sector_id):
+    dict_scores = {}
+    scores = Score.select().where(Score.sector == sector_id)
+    for score in scores:
+        dict_scores[score.faction.name] = score.score
+    return dict_scores
+
+
+def get_sector_owner(sector_id):
+    return Sector.get(Sector.id == sector_id).owner_faction.name
+
+
 def update_score(sector_id, faction_id, points):
     Score.update(score=Score.score + points).where(
             Score.sector == Sector.get_by_id(sector_id),

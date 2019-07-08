@@ -4,11 +4,16 @@ import queries
 
 @cherrypy.expose
 @cherrypy.tools.json_in()
+@cherrypy.tools.json_out()
 class Sector(object):
-    @cherrypy.tools.accept(media="application/json")
-    def GET(self):
-        return "Get method".encode("UTF-8")
+    def GET(self, sector):
+        return {
+            'owner': queries.get_sector_owner(sector),
+            'scores': queries.get_sector_scores(sector),
+            'active': queries.sector_is_active(5)
+        }
 
+    @cherrypy.tools.accept(media="application/json")
     def POST(self):
         j_request = cherrypy.request.json
         if not queries.sector_is_active(j_request['sector']):
