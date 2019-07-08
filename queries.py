@@ -1,6 +1,10 @@
 from models import *
 
 
+def sector_is_active(sector_id):
+    return Sector.get(Sector.id == sector_id).active
+
+
 def update_score(sector_id, faction_id, points):
     Score.update(score=Score.score + points).where(
             Score.sector == Sector.get_by_id(sector_id),

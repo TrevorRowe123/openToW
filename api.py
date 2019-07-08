@@ -3,13 +3,21 @@ import queries
 
 
 @cherrypy.expose
+@cherrypy.tools.json_in()
 class Sector(object):
     @cherrypy.tools.accept(media="application/json")
     def GET(self):
         return "Get method".encode("UTF-8")
 
     def POST(self):
-        queries.update_score(1, 'Red', 2)
+        j_request = cherrypy.request.json
+        if not queries.sector_is_active(j_request['sector']):
+            raise cherrypy.HTTPError(403, "Forbidden: Specified Sector is not active")
+        queries.update_score(
+            j_request['sector'],
+            j_request['faction'],
+            j_request['score']
+        )
 
 
 @cherrypy.expose
