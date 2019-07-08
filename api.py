@@ -38,3 +38,7 @@ def start():
     cherrypy.tree.mount(Sector(), "/sector", conf)
     cherrypy.tree.mount(Faction(), "/faction", conf)
     cherrypy.engine.start()
+
+
+def stop():
+    cherrypy.engine.exit()

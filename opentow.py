@@ -11,6 +11,7 @@ def main():
 
     if not os.path.exists('openToW.sqlite'):
         queries.setup(conf_root)
+
     queries.set_active_sectors()
     api.start()
 
