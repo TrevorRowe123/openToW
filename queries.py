@@ -1,6 +1,18 @@
 from models import *
 
 
+def get_sectors():
+    sector_list = []
+    sectors = Sector.select()
+    for sector in sectors:
+        sector_list.append({
+            'id': sector.id,
+            'owner': sector.owner_faction.name,
+            'active': sector.active
+        })
+    return sector_list
+
+
 def get_owned_sectors(faction_id):
     sector_list = []
     owned_sectors = Faction.get(Faction.name == faction_id).owned

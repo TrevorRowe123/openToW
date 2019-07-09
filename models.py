@@ -26,6 +26,6 @@ class Border(BaseModel):
 
 
 class Score(BaseModel):
-    sector = ForeignKeyField(Sector)
-    faction = ForeignKeyField(Faction)
+    sector = ForeignKeyField(Sector, backref="scores")
+    faction = ForeignKeyField(Faction, backref="scores")
     score = IntegerField()

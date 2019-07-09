@@ -6,12 +6,16 @@ import queries
 @cherrypy.tools.json_in()
 @cherrypy.tools.json_out()
 class Sector(object):
-    def GET(self, id):
-        return {
-            'owner': queries.get_sector_owner(id),
-            'scores': queries.get_sector_scores(id),
-            'active': queries.sector_is_active(id)
-        }
+
+    def GET(self, **params):
+        if 'id' in params:
+            return {
+                'owner': queries.get_sector_owner(params['id']),
+                'scores': queries.get_sector_scores(params['id']),
+                'active': queries.sector_is_active(params['id'])
+            }
+        else:
+            return queries.get_sectors()
 
     @cherrypy.tools.accept(media="application/json")
     def POST(self):
