@@ -3,10 +3,21 @@ from models import *
 
 def get_owned_sectors(faction_id):
     sector_list = []
-    query_sector = Sector.select().where(Sector.owner_faction == faction_id)
-    for sector in query_sector:
+    owned_sectors = Faction.get(Faction.name == faction_id).owned
+    for sector in owned_sectors:
         sector_list.append(sector.id)
     return sector_list
+
+
+def get_borders():
+    list_borders = []
+    borders = Border.select()
+    for border in borders:
+        list_borders.append({
+            'from': border.sector_1.id,
+            'to': border.sector_2.id
+        })
+    return list_borders
 
 
 def get_faction_scores(faction_id):

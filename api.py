@@ -27,6 +27,13 @@ class Sector(object):
 
 @cherrypy.expose
 @cherrypy.tools.json_out()
+class Border(object):
+    def GET(self):
+        return queries.get_borders()
+
+
+@cherrypy.expose
+@cherrypy.tools.json_out()
 class Faction(object):
     def GET(self, id):
         return {
@@ -45,6 +52,7 @@ def start():
     }
     cherrypy.tree.mount(Sector(), "/sector", conf)
     cherrypy.tree.mount(Faction(), "/faction", conf)
+    cherrypy.tree.mount(Border(), "/border", conf)
     cherrypy.engine.start()
 
 
