@@ -10,7 +10,7 @@ class Sector(object):
         return {
             'owner': queries.get_sector_owner(id),
             'scores': queries.get_sector_scores(id),
-            'active': queries.sector_is_active(5)
+            'active': queries.sector_is_active(id)
         }
 
     @cherrypy.tools.accept(media="application/json")
