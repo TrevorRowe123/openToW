@@ -1,6 +1,7 @@
 import cherrypy
 import queries
 import secrets
+import os
 import xml.etree.ElementTree as Et
 
 
@@ -51,6 +52,15 @@ class Faction(object):
         }
 
 
+@cherrypy.expose
+class Map(object):
+
+    map_file = open('map/OpenToWMap.html').read()
+
+    def GET(self):
+        return self.map_file.encode()
+
+
 def start():
     conf = {
         '/': {
@@ -59,9 +69,17 @@ def start():
             'tools.response_headers.headers': [('Content-Type', 'application/json')]
         }
     }
+    conf_map = {
+        '/': {
+            'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
+            'tools.response_headers.on': True,
+            'tools.response_headers.headers': [('Content-Type', 'text/html')]
+        }
+    }
     cherrypy.tree.mount(Sector(), "/sector", conf)
     cherrypy.tree.mount(Faction(), "/faction", conf)
     cherrypy.tree.mount(Border(), "/border", conf)
+    cherrypy.tree.mount(Map(), "/map", conf_map)
     cherrypy.engine.start()
 
 
