@@ -24,6 +24,9 @@ class Sector(object):
         j_request = cherrypy.request.json
         if not queries.sector_is_active(j_request['sector']):
             raise cherrypy.HTTPError(403, "Forbidden: Specified Sector is not active")
+        
+        if not queries.token_match(j_request['sector'], j_request['token']):
+            raise cherrypy.HTTPError(401)
         queries.update_score(
             j_request['sector'],
             j_request['faction'],

@@ -168,3 +168,8 @@ def update_token(sector_id, token):
     sector = Sector.get(Sector.id == sector_id)
     sector.token = token
     sector.save()
+
+
+def token_match(sector_id, token):
+    sector_token = Sector.get(Sector.id == sector_id).token
+    return sector_token == token
