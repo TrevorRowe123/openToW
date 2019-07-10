@@ -1,6 +1,7 @@
 import queries
 import api
 import os
+import shutil
 import xml.etree.ElementTree as Et
 from timer import *
 
@@ -9,10 +10,17 @@ game_timer: RepeatedTimer
 
 def main():
     global game_timer
+
+    if not os.path.exists('config'):
+        shutil.copyfile('config.default', 'config')
+
     conf_tree = Et.parse('config')
     conf_root = conf_tree.getroot()
     conf_settings = conf_root.find('settings')
     conf_timer = int(conf_settings.find('timer').text)
+
+    if api.generate_tokens(conf_root):
+        conf_tree.write('config')
 
     if not os.path.exists('openToW.sqlite'):
         queries.setup(conf_root)

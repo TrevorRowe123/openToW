@@ -127,6 +127,7 @@ def create_sectors(sectors):
                 id=sector.find('id').text,
                 owner_faction=Faction.get_by_id(sector.find('startOwner').text),
                 owner_faction_default=Faction.get_by_id(sector.find('startOwner').text),
+                token=sector.find('token').text,
                 active=False
             )
 
@@ -161,3 +162,9 @@ def create_scores():
 def update_sectors():
     update_sector_owners()
     set_active_sectors()
+
+
+def update_token(sector_id, token):
+    sector = Sector.get(Sector.id == sector_id)
+    sector.token = token
+    sector.save()

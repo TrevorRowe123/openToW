@@ -18,6 +18,7 @@ class Sector(BaseModel):
     owner_faction = ForeignKeyField(Faction, backref="owned")
     owner_faction_default = ForeignKeyField(Faction)
     active = BooleanField()
+    token = CharField()
 
 
 class Border(BaseModel):
