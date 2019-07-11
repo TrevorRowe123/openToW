@@ -1,6 +1,28 @@
 from models import *
 
 
+def winner():
+    active = Sector.select().where(Sector.active)
+    if active.count() == 0:
+        return Sector.select()[0].owner_faction.name
+    else:
+        return False
+
+
+def new_game():
+    sectors = Sector.select()
+    with db.atomic():
+        for sector in sectors:
+            sector.owner_faction = sector.owner_faction_default
+            sector.save()
+
+
+def add_win(faction_id):
+    faction = Faction.get(Faction.name == faction_id)
+    faction.total_wins += 1
+    faction.save()
+
+
 def get_sectors():
     sector_list = []
     sectors = Sector.select()
@@ -22,7 +44,6 @@ def get_factions():
             'wins': faction.total_wins
         })
     return faction_list
-
 
 
 def get_owned_sectors(faction_id):

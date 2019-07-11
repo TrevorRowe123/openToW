@@ -1,7 +1,6 @@
 import cherrypy
 import queries
 import secrets
-import os
 import xml.etree.ElementTree as Et
 
 

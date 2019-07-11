@@ -34,6 +34,13 @@ def main():
 def reset():
     # api.stop()
     queries.update_sectors()
+    winner = queries.winner()
+    if not winner:
+        pass
+    else:
+        queries.add_win(winner)
+        queries.new_game()
+        reset()
     # api.start()
     
     
