@@ -44,7 +44,7 @@
     edge_list = [];
     // create an array with nodes
     var sect_request = new XMLHttpRequest();
-    sect_request.open('GET', 'http://127.0.0.1:8080/sector', false);
+    sect_request.open('GET', '../sector', false);
     sect_request.send(null);
     var response_list = JSON.parse(sect_request.responseText)
     for(var i = 0; i < response_list.length; i++){
@@ -64,7 +64,7 @@
 
     // create an array with edges
     var border_request = new XMLHttpRequest();
-    border_request.open('GET', 'http://127.0.0.1:8080/border', false);
+    border_request.open('GET', '../border', false);
     border_request.send(null);
     edge_response_list = JSON.parse(border_request.responseText);
     for(var i = 0; i < edge_response_list.length; i++){
