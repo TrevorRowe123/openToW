@@ -193,8 +193,9 @@ def create_scores():
 
 
 def update_sectors():
-    update_sector_owners()
-    set_active_sectors()
+    with db.atomic():
+        update_sector_owners()
+        set_active_sectors()
 
 
 def update_token(sector_id, token):
