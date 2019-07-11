@@ -55,7 +55,7 @@
         "from": edge_response_list[i].from,
         "to": edge_response_list[i].to,
         "color":{"inherit":"both"},
-        "smooth":{"enabled":true}
+        "smooth":{"enabled":false}
       }
     )
   }
@@ -67,7 +67,10 @@
     nodes: nodes,
     edges: edges
   };
-  var options = {};
+  var options = {
+    "layout":{"randomSeed": 664296}
+    
+  };
   var network = new vis.Network(container, data, options);
 </script>
 
