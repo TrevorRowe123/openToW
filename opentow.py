@@ -12,7 +12,7 @@ def main():
     global game_timer
 
     if not os.path.exists('config'):
-        shutil.copyfile('config.default', 'config')
+        shutil.copyfile('config.default.xml', 'config')
 
     conf_tree = Et.parse('config')
     conf_root = conf_tree.getroot()
