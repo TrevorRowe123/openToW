@@ -13,6 +13,18 @@ def get_sectors():
     return sector_list
 
 
+def get_factions():
+    faction_list = []
+    factions = Faction.select()
+    for faction in factions:
+        faction_list.append({
+            'name': faction.name,
+            'wins': faction.total_wins
+        })
+    return faction_list
+
+
+
 def get_owned_sectors(faction_id):
     sector_list = []
     owned_sectors = Faction.get(Faction.name == faction_id).owned

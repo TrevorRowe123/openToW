@@ -26,14 +26,15 @@ def main():
         queries.setup(conf_root)
 
     reset()
+    api.start()
     game_timer = RepeatedTimer(conf_timer, reset)
     menu_loop()
 
 
 def reset():
-    api.stop()
+    # api.stop()
     queries.update_sectors()
-    api.start()
+    # api.start()
     
     
 def shutdown():

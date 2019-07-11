@@ -45,11 +45,14 @@ class Border(object):
 @cherrypy.expose
 @cherrypy.tools.json_out()
 class Faction(object):
-    def GET(self, id):
-        return {
-            'owned': queries.get_owned_sectors(id),
-            'scores': queries.get_faction_scores(id)
-        }
+    def GET(self, **params):
+        if 'id' in params:
+            return {
+                'owned': queries.get_owned_sectors(id),
+                'scores': queries.get_faction_scores(id)
+            }
+        else:
+            return queries.get_factions()
 
 
 @cherrypy.expose

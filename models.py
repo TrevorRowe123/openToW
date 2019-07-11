@@ -11,6 +11,7 @@ class BaseModel(Model):
 
 class Faction(BaseModel):
     name = CharField(primary_key=True)
+    total_wins = IntegerField(default=0)
 
 
 class Sector(BaseModel):
