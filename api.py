@@ -57,7 +57,7 @@ class Faction(object):
 @cherrypy.expose
 class Map(object):
 
-    map_file = open('map/OpenToWMap.html').read()
+    map_file = open('map/openToWMap.html').read()
 
     def GET(self):
         return self.map_file.encode()
