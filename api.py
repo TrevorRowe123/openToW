@@ -63,7 +63,7 @@ class Map(object):
         return self.map_file.encode()
 
 
-def start():
+def start(server_ip, server_port):
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
@@ -78,6 +78,8 @@ def start():
             'tools.response_headers.headers': [('Content-Type', 'text/html')]
         }
     }
+    cherrypy.server.socket_host = server_ip
+    cherrypy.server.socket_port = int(server_port)
     cherrypy.tree.mount(Sector(), "/sector", conf)
     cherrypy.tree.mount(Faction(), "/faction", conf)
     cherrypy.tree.mount(Border(), "/border", conf)

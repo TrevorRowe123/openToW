@@ -26,7 +26,10 @@ def main():
         queries.setup(conf_root)
 
     reset()
-    api.start()
+    api.start(
+        conf_settings.find('ip').text,
+        conf_settings.find('port').text
+    )
     game_timer = RepeatedTimer(conf_timer, reset)
     menu_loop()
 

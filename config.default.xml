@@ -70,5 +70,7 @@
     </sectors>
     <settings>
         <timer>60</timer>
+        <ip>0.0.0.0</ip>
+        <port>8080</port>
     </settings>
 </openToW>
