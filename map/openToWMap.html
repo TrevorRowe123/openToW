@@ -18,6 +18,8 @@
 <body>
 
 
+<p id="redwins">Red Wins: 0</p>
+<p id="bluewins">Blue Wins: 0</p>
 
 <div id="mynetwork"></div>
 
@@ -42,6 +44,14 @@
   function get_network_map(){
     node_list = [];
     edge_list = [];
+
+    var fac_request = new XMLHttpRequest();
+    fac_request.open('GET', '../faction', false);
+    fac_request.send(null);
+    var fac_response = JSON.parse(fac_request.responseText)
+    document.getElementById("redwins").innerHTML = "Red Wins: " + fac_response.Red.wins;
+    document.getElementById("bluewins").innerHTML = "Blue Wins: " + fac_response.Blue.wins;
+
     // create an array with nodes
     var sect_request = new XMLHttpRequest();
     sect_request.open('GET', '../sector', false);

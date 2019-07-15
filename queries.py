@@ -35,15 +35,19 @@ def get_sectors():
     return sector_list
 
 
-def get_factions():
-    faction_list = []
-    factions = Faction.select()
+def get_factions(faction_id=None):
+    faction_dict = {}
+    if faction_id is None:
+        factions = Faction.select()
+    else:
+        factions = Faction.select().where(Faction.name == faction_id)
     for faction in factions:
-        faction_list.append({
+        faction_dict[faction.name] = {
             'name': faction.name,
+            'scores': get_faction_scores(faction.name),
             'wins': faction.total_wins
-        })
-    return faction_list
+        }
+    return faction_dict
 
 
 def get_owned_sectors(faction_id):

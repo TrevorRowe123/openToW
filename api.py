@@ -46,10 +46,7 @@ class Border(object):
 class Faction(object):
     def GET(self, **params):
         if 'id' in params:
-            return {
-                'owned': queries.get_owned_sectors(id),
-                'scores': queries.get_faction_scores(id)
-            }
+            return queries.get_factions(params['id'])[params['id']]
         else:
             return queries.get_factions()
 
