@@ -1,6 +1,16 @@
 # openToW
 openToW is an automated game server management tool that roughly emulates the "Theater of War" game mode from Tom Clancy's Endwar.
 
+### Table of Contents
+1. [Installation](#installation)
+
+2. [Configuration](#configuration)
+   - [Sectors](#sectors)
+   - [Factions](#factions)
+   - [Settings](#settings)
+ 
+3. [Example Game](#example-game)
+
 # Installation
 note: openToW Requires Python Python 3.6 or above
 
