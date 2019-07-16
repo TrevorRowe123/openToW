@@ -2,14 +2,23 @@
 openToW is an automated game server management tool that roughly emulates the "Theater of War" game mode from Tom Clancy's Endwar.
 
 ### Table of Contents
-1. [Installation](#installation)
+1. [How It Works](#how-it-works)
 
-2. [Configuration](#configuration)
+2. [Installation](#installation)
+
+3. [Configuration](#configuration)
    - [Sectors](#sectors)
    - [Factions](#factions)
    - [Settings](#settings)
  
-3. [Example Game](#example-game)
+4. [Example Game](#example-game)
+
+# How It Works
+openToW keeps a local database of Sectors, which each correspond to a multiplayer game server. The database contains a record of what team controls the sector, what other sectors border it, whether the sector is active or not, and what scores each team has in that sector
+
+Each time the sector owners are updated, openToW will check for any neighboring sectors that do not share the same owner. These sectors make up the border between two teams' territory and are contested. Contested sectors are marked as active, allowing teams to score points there. The API will reject score reports for any sectors that are not marked as active.
+
+After each match on a server in the network, that server will report the winning team via openToW's http API, which will then update the team's score in the sector. After a set amount of time has passed, openToW will award ownership of a sector to the team with the most wins in the sector, and the map will be redrawn with the new sector owners and borders. If a single team owns all sectors on the map, that team will be awarded a win and the map will be reset to its original layout. 
 
 # Installation
 note: openToW Requires Python Python 3.6 or above
