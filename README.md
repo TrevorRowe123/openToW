@@ -69,4 +69,19 @@ The `<settings>` element contains server settings.
 `<ip>`: Defines the interface that the http server will listen on
 
 `<port>`: Defines the TCP port that the http server will listen on
+
+# Example Game
+
+The example game shows a quick game playing out with the map and factions defined in `config.default.xml`
+
+1. Game starts out with Red and Blue controlling equal parts of the map, and sectors on the border between the factions are contested.
+![Initial Map](https://imgur.com/UyeDCMt.png)
     
+2. Blue captures a sector from Red, shifting the border.
+![Blue Takes a Sector](https://imgur.com/E0H8ncq.png)
+
+3. Blue pushes further into Red territory, cornering Red at the edge of the map.
+![Blue Pushes Forward](https://imgur.com/TJgcJqe.png)
+
+4. Blue takes the remaining Red sector, causing a reset of the map and a win being added to Blue's tally.
+![Blue Wins](https://imgur.com/XPV4MYD.png)
