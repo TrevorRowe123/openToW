@@ -5,8 +5,6 @@ import shutil
 import xml.etree.ElementTree as Et
 from timer import *
 
-game_timer: RepeatedTimer
-
 
 def main():
     global game_timer
