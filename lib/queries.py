@@ -1,4 +1,4 @@
-from models import *
+from lib.models import *
 
 
 def winner():

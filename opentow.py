@@ -1,9 +1,8 @@
-import queries
-import api
+from lib import api, queries
+from lib.timer import *
 import os
 import shutil
 import xml.etree.ElementTree as Et
-from timer import *
 
 
 def main():
