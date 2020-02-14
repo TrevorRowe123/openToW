@@ -51,28 +51,15 @@ class Faction(object):
             return queries.get_factions()
 
 
-@cherrypy.expose
-class Map(object):
-
-    map_file = open('map/openToWMap.html').read()
-
-    def GET(self):
-        return self.map_file.encode()
-
-
 def start(server_ip, server_port):
     conf = {
         '/': {
             'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
             'tools.response_headers.on': True,
-            'tools.response_headers.headers': [('Content-Type', 'application/json')]
-        }
-    }
-    conf_map = {
-        '/': {
-            'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
-            'tools.response_headers.on': True,
-            'tools.response_headers.headers': [('Content-Type', 'text/html')]
+            'tools.response_headers.headers': [
+                ('Content-Type', 'application/json'),
+                ("Access-Control-Allow-Origin", "*")
+            ]
         }
     }
     cherrypy.server.socket_host = server_ip
@@ -80,7 +67,6 @@ def start(server_ip, server_port):
     cherrypy.tree.mount(Sector(), "/sector", conf)
     cherrypy.tree.mount(Faction(), "/faction", conf)
     cherrypy.tree.mount(Border(), "/border", conf)
-    cherrypy.tree.mount(Map(), "/map", conf_map)
     cherrypy.engine.start()
 
 
