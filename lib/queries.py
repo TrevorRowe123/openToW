@@ -6,7 +6,7 @@ def winner():
     if active.count() == 0:
         return Sector.select()[0].owner_faction.name
     else:
-        return False
+        return None
 
 
 def new_game():
