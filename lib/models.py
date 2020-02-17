@@ -31,3 +31,9 @@ class Score(BaseModel):
     sector = ForeignKeyField(Sector, backref="scores")
     faction = ForeignKeyField(Faction, backref="scores")
     score = IntegerField()
+
+
+class Player(BaseModel):
+    id = IntegerField(primary_key=True)
+    username = CharField()
+    faction = ForeignKeyField(Faction, backref="players")
