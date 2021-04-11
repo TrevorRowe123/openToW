@@ -51,6 +51,24 @@ class Faction(object):
             return queries.get_factions()
 
 
+@cherrypy.expose
+@cherrypy.tools.json_out()
+class Player(object):
+    def GET(self, **params):
+        if 'id' in params:
+            return queries.get_player_by_id()
+        elif 'username' in params:
+            return queries.get_player_by_username()
+        else:
+            return queries.get_players()
+
+
+@cherrypy.expose
+@cherrypy.tools.json_out()
+class PlayerAccount(object):
+    pass
+
+
 def start(server_ip, server_port):
     conf = {
         '/': {
