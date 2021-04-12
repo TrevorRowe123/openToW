@@ -10,12 +10,11 @@ import lib.api.sector as sectors
 def start(server_ip, server_port):
     conf = {
         '/': {
-            'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
             'tools.response_headers.on': True,
             'tools.response_headers.headers': [
                 ('Content-Type', 'application/json'),
                 ("Access-Control-Allow-Origin", "*")
-            ]
+            ],
         }
     }
     cherrypy.server.socket_host = server_ip
