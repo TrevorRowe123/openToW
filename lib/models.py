@@ -35,5 +35,9 @@ class Score(BaseModel):
 
 class Player(BaseModel):
     id = IntegerField(primary_key=True)
+    active = BooleanField(default=False)
     username = CharField()
+    password_hash = CharField()
     faction = ForeignKeyField(Faction, backref="players")
+    kills = IntegerField(default=0)
+    deaths = IntegerField(default=0)
