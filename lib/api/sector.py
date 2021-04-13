@@ -10,6 +10,18 @@ class Sector(object):
     def all(self):
         return queries.get_sectors()
 
+    @cherrypy.expose
+    @cherrypy.tools.json_out()
+    @cherrypy.tools.json_in()
+    @cherrypy.tools.accept(media="application/json")
+    @cherrypy.tools.allow(methods=["GET", "POST"])
+    def default(self, sector_id):
+        if cherrypy.request.method == "GET":
+            return self.get_sector(sector_id)
+
+        if cherrypy.request.method == "POST":
+            return self.post_sector(cherrypy.request.json, sector_id)
+
     def get_sector(self, sector_id):
         return {
             'owner': queries.get_sector_owner(sector_id),
@@ -29,16 +41,6 @@ class Sector(object):
             j_request['score']
         )
 
-    @cherrypy.expose
-    @cherrypy.tools.json_out()
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.accept(media="application/json")
-    @cherrypy.tools.allow(methods=["GET", "POST"])
-    def default(self, sector_id):
-        if cherrypy.request.method == "GET":
-            return self.get_sector(sector_id)
 
-        if cherrypy.request.method == "POST":
-            return self.post_sector(cherrypy.request.json, sector_id)
 
 
