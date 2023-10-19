@@ -1,4 +1,5 @@
-from lib import api, queries
+from lib import queries
+from lib.api import api
 from lib.timer import *
 import os
 import shutil

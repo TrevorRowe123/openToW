@@ -1,3 +1,5 @@
 openToW.sqlite
 /venv
 config
+.idea/
+lib/__pycache__/
