@@ -141,8 +141,12 @@ def create_player_account(username, password, faction_id):
     )
 
 
-def authenticate_player():
-    pass
+def authenticate_player(username, password):
+    player = Player.select().where(Player.username == username)
+    attempt_hash = hashlib.sha256(password, usedforsecurity=True)
+    if player.password_hash == attempt_hash:
+        return player.faction
+    return None
 
 
 def update_player_counters(player_id, kills=0, deaths=0):
