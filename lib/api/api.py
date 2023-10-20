@@ -1,34 +1,27 @@
-import cherrypy
+from cheroot.wsgi import PathInfoDispatcher, Server
+from app import app
 import secrets
 import xml.etree.ElementTree as Et
 
-import lib.api.border as borders
-import lib.api.faction as factions
-import lib.api.sector as sectors
+server: Server
 
 
 def start(server_ip, server_port):
-    conf = {
-        '/': {
-            'tools.response_headers.on': True,
-            'tools.response_headers.headers': [
-                ('Content-Type', 'application/json'),
-                ("Access-Control-Allow-Origin", "*")
-            ],
-        }
-    }
-    cherrypy.server.socket_host = server_ip
-    cherrypy.server.socket_port = int(server_port)
-
-    cherrypy.tree.mount(sectors.Sector(), "/sector", conf)
-    cherrypy.tree.mount(factions.Faction(), "/faction", conf)
-    cherrypy.tree.mount(borders.Border(), "/border", conf)
-
-    cherrypy.engine.start()
+    global server
+    dispatcher = PathInfoDispatcher({'/': app})
+    server = Server(
+        (server_ip, server_port),
+        dispatcher
+    )
+    server.start()
 
 
 def stop():
-    cherrypy.engine.exit()
+    global server
+    try:
+        server.stop()
+    except:
+        pass
 
 
 def generate_tokens(conf_root):
