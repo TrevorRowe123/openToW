@@ -26,8 +26,8 @@ def stop() -> None:
     global server
     try:
         server.stop()
-    except:
-        pass
+    except NameError:
+        print("Server has not been initialized, nothing to stop.")
 
 
 def generate_tokens(conf_root) -> bool:
