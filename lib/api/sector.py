@@ -1,5 +1,7 @@
+import http
+
 from lib import queries
-from flask import abort
+from flask import abort, request, Response
 
 
 def get_all_sectors():
@@ -14,7 +16,9 @@ def get_sector(sector_id):
     }
 
 
-def post_sector(j_request, sector_id):
+def post_sector(sector_id):
+    j_request = request.json
+    print(j_request)
     if not queries.sector_is_active(sector_id):
         abort(403, "Forbidden: Specified Sector is not active")
 
@@ -25,3 +29,4 @@ def post_sector(j_request, sector_id):
         j_request['faction'],
         j_request['score']
     )
+    return Response(status=http.HTTPStatus.NO_CONTENT)

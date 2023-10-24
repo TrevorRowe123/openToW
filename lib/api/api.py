@@ -1,22 +1,28 @@
+import threading
+
 from cheroot.wsgi import PathInfoDispatcher, Server
-from app import app
+from lib.api.app import app
 import secrets
 import xml.etree.ElementTree as Et
 
 server: Server
 
 
-def start(server_ip, server_port):
+def start(server_ip: str, server_port: str) -> None:
     global server
     dispatcher = PathInfoDispatcher({'/': app})
     server = Server(
-        (server_ip, server_port),
+        (
+            server_ip,
+            int(server_port)
+        ),
         dispatcher
     )
-    server.start()
+    server.prepare()
+    threading.Thread(target=server.serve).start()
 
 
-def stop():
+def stop() -> None:
     global server
     try:
         server.stop()
@@ -24,7 +30,7 @@ def stop():
         pass
 
 
-def generate_tokens(conf_root):
+def generate_tokens(conf_root) -> bool:
     conf_changed = False
     sectors = conf_root.find('sectors')
     for sector in sectors.iter('sector'):
