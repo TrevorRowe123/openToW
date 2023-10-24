@@ -1,4 +1,3 @@
-import cherrypy
 from lib import queries
 
 
