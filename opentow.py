@@ -42,6 +42,8 @@ def reset():
         queries.add_win(winner)
         queries.new_game()
         reset()
+
+    api.notify()
     # api.start()
     
     

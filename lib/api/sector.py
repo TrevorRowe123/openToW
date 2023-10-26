@@ -18,7 +18,6 @@ def get_sector(sector_id):
 
 def post_sector(sector_id):
     j_request = request.json
-    print(j_request)
     if not queries.sector_is_active(sector_id):
         abort(403, "Forbidden: Specified Sector is not active")
 

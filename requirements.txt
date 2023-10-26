@@ -2,3 +2,4 @@ cheroot
 peewee
 flask
 flask-cors
+websockets
