@@ -21,7 +21,7 @@ Each time the sector owners are updated, openToW will check for any neighboring 
 After each match on a server in the network, that server will report the winning team via openToW's http API, which will then update the team's score in the sector. After a set amount of time has passed, openToW will award ownership of a sector to the team with the most wins in the sector, and the map will be redrawn with the new sector owners and borders. If a single team owns all sectors on the map, that team will be awarded a win and the map will be reset to its original layout. 
 
 # Installation
-note: openToW Requires Python Python 3.6 or above
+note: openToW Requires Python 3.6 or above
 
 1. Clone the openToW repository
 
