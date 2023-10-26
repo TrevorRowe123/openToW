@@ -1,2 +1,4 @@
-cherrypy
+cheroot
 peewee
+flask
+flask-cors

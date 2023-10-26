@@ -1,5 +1,5 @@
-openToW.sqlite
+*.sqlite
 /venv
 config
 .idea/
-lib/__pycache__/
+*__pycache__/

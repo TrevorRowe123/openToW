@@ -1,37 +1,39 @@
-import cherrypy
+import threading
+
+from cheroot.wsgi import PathInfoDispatcher, Server
+from flask_cors import CORS
+
+from lib.api.app import app
 import secrets
 import xml.etree.ElementTree as Et
 
-import lib.api.border as borders
-import lib.api.faction as factions
-import lib.api.sector as sectors
+server: Server
 
 
-def start(server_ip, server_port):
-    conf = {
-        '/': {
-            'tools.response_headers.on': True,
-            'tools.response_headers.headers': [
-                ('Content-Type', 'application/json'),
-                ("Access-Control-Allow-Origin", "*")
-            ],
-        }
-    }
-    cherrypy.server.socket_host = server_ip
-    cherrypy.server.socket_port = int(server_port)
-
-    cherrypy.tree.mount(sectors.Sector(), "/sector", conf)
-    cherrypy.tree.mount(factions.Faction(), "/faction", conf)
-    cherrypy.tree.mount(borders.Border(), "/border", conf)
-
-    cherrypy.engine.start()
+def start(server_ip: str, server_port: str) -> None:
+    global server
+    CORS(app)
+    dispatcher = PathInfoDispatcher({'/': app})
+    server = Server(
+        (
+            server_ip,
+            int(server_port)
+        ),
+        dispatcher
+    )
+    server.prepare()
+    threading.Thread(target=server.serve).start()
 
 
-def stop():
-    cherrypy.engine.exit()
+def stop() -> None:
+    global server
+    try:
+        server.stop()
+    except NameError:
+        print("Server has not been initialized, nothing to stop.")
 
 
-def generate_tokens(conf_root):
+def generate_tokens(conf_root) -> bool:
     conf_changed = False
     sectors = conf_root.find('sectors')
     for sector in sectors.iter('sector'):
