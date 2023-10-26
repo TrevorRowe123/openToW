@@ -1,3 +1,4 @@
 cheroot
 peewee
 flask
+flask-cors
