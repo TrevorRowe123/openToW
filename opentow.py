@@ -5,8 +5,8 @@ import os
 import shutil
 import xml.etree.ElementTree as Et
 
-api_controller: api.ApiController
 game_timer: RepeatedTimer
+api_controller: api.ApiController
 
 
 def main():
@@ -40,7 +40,6 @@ def main():
 
 
 def reset():
-    global api_controller
     # api.stop()
     queries.update_sectors()
     winner = queries.winner()
@@ -56,8 +55,8 @@ def reset():
 
 
 def shutdown():
-    game_timer.stop()
     api_controller.stop()
+    game_timer.stop()
     raise SystemExit
 
 
@@ -85,4 +84,7 @@ menu_options = {
 }
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        shutdown()
