@@ -5,9 +5,12 @@ import os
 import shutil
 import xml.etree.ElementTree as Et
 
+api_controller: api.ApiController = None
+
 
 def main():
     global game_timer
+    global api_controller
 
     if not os.path.exists('config'):
         shutil.copyfile('config.default.xml', 'config')
@@ -23,16 +26,20 @@ def main():
     if not os.path.exists('openToW.sqlite'):
         queries.setup(conf_root)
 
-    reset()
-    api.start(
+    api_controller = api.ApiController(
         conf_settings.find('ip').text,
-        conf_settings.find('port').text
+        int(conf_settings.find('port').text)
     )
+
+    reset()
+
+    api_controller.start()
     game_timer = RepeatedTimer(conf_timer, reset)
     menu_loop()
 
 
 def reset():
+    global api_controller
     # api.stop()
     queries.update_sectors()
     winner = queries.winner()
@@ -43,15 +50,15 @@ def reset():
         queries.new_game()
         reset()
 
-    api.notify()
+    api_controller.notify()
     # api.start()
-    
-    
+
+
 def shutdown():
     game_timer.stop()
     api.stop()
     raise SystemExit
-    
+
 
 def menu_loop():
     while True:
@@ -70,12 +77,11 @@ def menu_handler(response):
 def print_menu():
     print("MAIN MENU:")
     print('0: Quit openTow')
-        
-        
+
+
 menu_options = {
     '0': shutdown
 }
-    
 
 if __name__ == "__main__":
     main()

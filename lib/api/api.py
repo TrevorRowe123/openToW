@@ -7,57 +7,51 @@ from cheroot.wsgi import PathInfoDispatcher, WSGIServer
 from flask_cors import CORS
 from lib.api.app import app
 
-rest_server: WSGIServer
-sock_server: websockets.sync.server.WebSocketServer
-SOCKET_CONNECTIONS = set()
 
+class ApiController:
 
-def register_connection(connection: websockets.sync.server.ServerConnection) -> None:
-    SOCKET_CONNECTIONS.add(connection)
-    try:
-        for msg in connection:
-            pass
-    finally:
-        SOCKET_CONNECTIONS.remove(connection)
+    def __init__(self, server_ip: str, server_port: int):
 
+        CORS(app)
+        dispatcher = PathInfoDispatcher({'/': app})
+        self.rest_server = WSGIServer(
+            (
+                server_ip,
+                int(server_port)
+            ),
+            dispatcher
+        )
 
-def notify() -> None:
-    for connection in SOCKET_CONNECTIONS:
-        connection.send("MAP UPDATE")
-
-
-def start(server_ip: str, server_port: str) -> None:
-    global rest_server
-    global sock_server
-    CORS(app)
-    dispatcher = PathInfoDispatcher({'/': app})
-
-    rest_server = WSGIServer(
-        (
+        self.sock_server = websockets.sync.server.serve(
+            self.register_connection,
             server_ip,
-            int(server_port)
-        ),
-        dispatcher
-    )
-    rest_server.prepare()
-    threading.Thread(target=rest_server.serve).start()
+            int(server_port) + 1
+        )
+        self.SOCKET_CONNECTIONS = set()
 
-    sock_server = websockets.sync.server.serve(
-        register_connection,
-        server_ip,
-        int(server_port) + 1
-    )
-    threading.Thread(target=sock_server.serve_forever).start()
+    def register_connection(self, connection: websockets.sync.server.ServerConnection) -> None:
+        self.SOCKET_CONNECTIONS.add(connection)
+        try:
+            for msg in connection:
+                pass
+        finally:
+            self.SOCKET_CONNECTIONS.remove(connection)
 
+    def notify(self) -> None:
+        for connection in self.SOCKET_CONNECTIONS:
+            connection.send("MAP UPDATE")
 
-def stop() -> None:
-    global rest_server
-    global sock_server
-    try:
-        rest_server.stop()
-        sock_server.shutdown()
-    except NameError:
-        print("Server has not been initialized, nothing to stop.")
+    def start(self) -> None:
+        self.rest_server.prepare()
+        threading.Thread(target=self.rest_server.serve).start()
+        threading.Thread(target=self.sock_server.serve_forever).start()
+
+    def stop(self) -> None:
+        try:
+            self.rest_server.stop()
+            self.sock_server.shutdown()
+        except NameError:
+            print("Server has not been initialized, nothing to stop.")
 
 
 def generate_tokens(conf_root) -> bool:
