@@ -32,7 +32,7 @@ class ApiController:
     def register_connection(self, connection: websockets.sync.server.ServerConnection) -> None:
         self.SOCKET_CONNECTIONS.add(connection)
         try:
-            for msg in connection:
+            for _ in connection:
                 pass
         finally:
             self.SOCKET_CONNECTIONS.remove(connection)
