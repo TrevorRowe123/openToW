@@ -37,9 +37,9 @@ class ApiController:
         finally:
             self.SOCKET_CONNECTIONS.remove(connection)
 
-    def notify(self) -> None:
+    def notify(self, msg="MAP_UPDATE") -> None:
         for connection in self.SOCKET_CONNECTIONS:
-            connection.send("MAP UPDATE")
+            connection.send(msg)
 
     def start(self) -> None:
         self.rest_server.prepare()
