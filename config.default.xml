@@ -7,66 +7,330 @@
         <faction>
             <name>Blue</name>
         </faction>
+	<faction>
+		<name>Green</name>
+	</faction>
     </factions>
     <sectors>
         <sector>
             <id>1</id>
-            <name>Red HQ</name>
+            <name>Grissom AFB</name>
             <startOwner>Red</startOwner>
             <border>2</border>
-            <border>3</border>
-        </sector>
+            <border>5</border>
+            <border>27</border>
+       </sector>
         <sector>
             <id>2</id>
-            <name>Blue HQ</name>
+            <name>Springfield</name>
             <startOwner>Red</startOwner>
             <border>1</border>
-            <border>4</border>
-        </sector>
-        <sector>
-            <id>3</id>
-            <name>Blue HQ</name>
-            <startOwner>Red</startOwner>
-            <border>1</border>
-            <border>4</border>
-        </sector>
-        <sector>
-            <id>4</id>
-            <name>Blue HQ</name>
-            <startOwner>Red</startOwner>
-            <border>2</border>
             <border>3</border>
             <border>5</border>
-        </sector>
+            <border>6</border>
+            <border>17</border>        
+</sector>
+        <sector>
+            <id>3</id>
+            <name>Three Mile Island</name>
+            <startOwner>Red</startOwner>
+            <border>7</border>
+            <border>4</border>
+            <border>3</border>
+   </sector>
+        <sector>
+            <id>4</id>
+            <name>USS Reagan</name>
+            <startOwner>Red</startOwner>
+            <border>14</border>
+            <border>3</border>
+           </sector>
         <sector>
             <id>5</id>
-            <name>Blue HQ</name>
-            <startOwner>Blue</startOwner>
-            <border>4</border>
+            <name>Ft. Campbell</name>
+            <startOwner>Red</startOwner>
+            <border>1</border>
             <border>6</border>
-            <border>7</border>
-        </sector>
+            <border>2</border>
+            <border>8</border>
+       </sector>
         <sector>
             <id>6</id>
-            <name>Blue HQ</name>
-            <startOwner>Blue</startOwner>
+            <name>Shenandoah Valley</name>
+            <startOwner>Red</startOwner>
             <border>5</border>
-            <border>8</border>
-        </sector>
+            <border>2</border>
+            <border>7</border>
+            <border>9</border>
+       </sector>
         <sector>
             <id>7</id>
-            <name>Blue HQ</name>
-            <startOwner>Blue</startOwner>
-            <border>5</border>
-            <border>8</border>
-        </sector>
+            <name>Washington D.C.</name>
+            <startOwner>Red</startOwner>
+            <border>3</border>
+            <border>6</border>
+       </sector>
         <sector>
             <id>8</id>
-            <name>Blue HQ</name>
-            <startOwner>Blue</startOwner>
-            <border>6</border>
-            <border>7</border>
+            <name>Chattanooga</name>
+            <startOwner>Red</startOwner>
+            <border>5</border>
+            <border>9</border>
+            <border>10</border>
+            <border>11</border>
         </sector>
+        <sector>
+            <id>9</id>
+            <name>Pamlico</name>
+            <startOwner>Red</startOwner>
+            <border>6</border>
+            <border>8</border>
+            <border>12</border>
+        </sector>
+        <sector>
+            <id>10</id>
+            <name>Pascagoula</name>
+            <startOwner>Red</startOwner>
+            <border>8</border>
+            <border>11</border>
+        </sector>
+        <sector>
+            <id>11</id>
+            <name>Maxwell AFB</name>
+            <startOwner>Red</startOwner>
+            <border>8</border>
+            <border>12</border>
+            <border>10</border>
+            <border>13</border>
+        </sector>
+        <sector>
+            <id>12</id>
+            <name>Okefenokee</name>
+            <startOwner>Red</startOwner>
+            <border>13</border>
+            <border>9</border>
+            <border>24</border>
+            <border>11</border>
+        </sector>
+        <sector>
+            <id>13</id>
+            <name>JFK Space Centre</name>
+            <startOwner>Red</startOwner>
+            <border>12</border>
+            <border>39</border>
+            <border>11</border>
+        </sector>
+        <sector>
+            <id>14</id>
+            <name>Glen Albyn</name>
+            <startOwner>Blue</startOwner>
+            <border>4</border>
+            <border>15</border>
+            <border>18</border>
+        </sector>
+        <sector>
+            <id>15</id>
+            <name>Rozenberg</name>
+            <startOwner>Blue</startOwner>
+            <border>14</border>
+            <border>16</border>
+            <border>20</border>
+            <border>21</border>
+        </sector>
+        <sector>
+            <id>16</id>
+            <name>Wilstermarsch</name>
+            <startOwner>Blue</startOwner>
+            <border>17</border>
+            <border>15</border>
+            <border>21</border>
+            <border>32</border>
+        </sector>
+        <sector>
+            <id>17</id>
+            <name>Copenhagen</name>
+            <startOwner>Blue</startOwner>
+            <border>16</border>
+            <border>2</border>
+            </sector>
+        <sector>
+            <id>18</id>
+            <name>Macgillicuddy</name>
+            <startOwner>Blue</startOwner>
+            <border>14</border>
+            <border>19</border>
+            </sector>
+        <sector>
+            <id>19</id>
+            <name>Bedford Level</name>
+            <startOwner>Blue</startOwner>
+            <border>18</border>
+            <border>20</border>
+            </sector>
+        <sector>
+            <id>20</id>
+            <name>Paris</name>
+            <startOwner>Blue</startOwner>
+            <border>19</border>
+            <border>15</border>
+            <border>22</border>
+            <border>21</border>
+        </sector>
+ <sector>
+            <id>21</id>
+            <name>Ramstein</name>
+            <startOwner>Blue</startOwner>
+            <border>16</border>
+            <border>15</border>
+            <border>22</border>
+            <border>20</border>
+            <border>23</border>
+        </sector>
+ <sector>
+            <id>22</id>
+            <name>Le Ceito</name>
+            <startOwner>Blue</startOwner>
+            <border>26</border>
+            <border>21</border>
+            <border>20</border>
+            <border>25</border>
+        </sector>
+ <sector>
+            <id>23</id>
+            <name>Brenner Pass</name>
+            <startOwner>Blue</startOwner>
+            <border>34</border>
+            <border>32</border>
+            <border>21</border>
+            <border>26</border>
+        </sector>
+ <sector>
+            <id>24</id>
+            <name>Arrabida</name>
+            <startOwner>Blue</startOwner>
+            <border>12</border>
+            <border>25</border>
+            </sector>
+ <sector>
+            <id>25</id>
+            <name>La Mancha</name>
+            <startOwner>Blue</startOwner>
+            <border>22</border>
+            <border>26</border>
+            <border>24</border>
+        </sector>
+ <sector>
+            <id>26</id>
+            <name>Matera</name>
+            <startOwner>Blue</startOwner>
+            <border>26</border>
+            <border>22</border>
+            <border>25</border>
+            <border>23</border>
+        </sector>
+ <sector>
+            <id>27</id>
+            <name>Rondane</name>
+            <startOwner>Green</startOwner>
+            <border>1</border>
+            <border>29</border>
+        </sector>
+ <sector>
+            <id>28</id>
+            <name>Scania</name>
+            <startOwner>Green</startOwner>
+            <border>30</border>
+            </sector>
+ <sector>
+            <id>29</id>
+            <name>Rovaniemi</name>
+            <startOwner>Green</startOwner>
+            <border>27</border>
+            <border>31</border>
+            </sector>
+ <sector>
+            <id>30</id>
+            <name>Kurzeme</name>
+            <startOwner>Green</startOwner>
+            <border>28</border>
+            <border>31</border>
+            <border>32</border>
+            </sector>
+ <sector>
+            <id>31</id>
+            <name>Moscow</name>
+            <startOwner>Green</startOwner>
+            <border>29</border>
+            <border>30</border>
+            <border>33</border>
+            </sector>
+ <sector>
+            <id>32</id>
+            <name>Mahilyow</name>
+            <startOwner>Green</startOwner>
+            <border>16</border>
+            <border>30</border>
+            <border>33</border>
+            <border>35</border>
+            <border>23</border>
+        </sector>
+ <sector>
+            <id>33</id>
+            <name>Dukovany</name>
+            <startOwner>Green</startOwner>
+            <border>31</border>
+            <border>32</border>
+            <border>35</border>
+            </sector>
+ <sector>
+            <id>34</id>
+            <name>Istra</name>
+            <startOwner>Green</startOwner>
+            <border>23</border>
+            <border>37</border>
+            </sector>
+ <sector>
+            <id>35</id>
+            <name>Sevastopol</name>
+            <startOwner>Green</startOwner>
+            <border>32</border>
+            <border>33</border>
+            <border>38</border>
+            </sector>
+ <sector>
+            <id>36</id>
+            <name>Thessaly</name>
+            <startOwner>Green</startOwner>
+            <border>26</border>
+            <border>37</border>
+            <border>39</border>
+            </sector>
+ <sector>
+            <id>37</id>
+            <name>Vlore</name>
+            <startOwner>Green</startOwner>
+            <border>34</border>
+            <border>36</border>
+            <border>38</border>
+            <border>39</border>
+            </sector>
+ <sector>
+            <id>38</id>
+            <name>Carpathia</name>
+            <startOwner>Green</startOwner>
+            <border>35</border>
+            <border>37</border>
+            <border>39</border>
+            </sector>
+ <sector>
+            <id>39</id>
+            <name>Ft. Levski</name>
+            <startOwner>Green</startOwner>
+            <border>13</border>
+            <border>36</border>
+            <border>37</border>
+            <border>38</border>
+            </sector>
     </sectors>
     <settings>
         <timer>60</timer>
