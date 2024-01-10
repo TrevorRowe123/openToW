@@ -1,4 +1,5 @@
 from lib.models import *
+import hashlib
 
 
 def winner():
@@ -131,6 +132,53 @@ def update_sector_owners():
         Score.update(score=0).execute()
 
 
+def create_player_account(username, password, faction_id):
+    faction = Faction.select().where(Faction.name == faction_id)
+    Player.create(
+        username=username,
+        password_hash=hashlib.sha256(password, usedforsecurity=True),
+        faction=faction
+    )
+
+
+def authenticate_player(username, password):
+    player = Player.select().where(Player.username == username)
+    attempt_hash = hashlib.sha256(password, usedforsecurity=True)
+    if player.password_hash == attempt_hash:
+        return player.faction
+    return None
+
+
+def update_player_counters(player_id, kills=0, deaths=0):
+    player = Player.select().where(Player.id == player_id)
+    with db.atomic():
+        player.kills += kills
+        player.deaths += deaths
+
+
+def get_players():
+    player_list = []
+    players = Player.select()
+    for player in players:
+        player_list.append({
+            'id': player.id,
+            'username': player.username,
+            'faction': player.faction,
+            'active': player.active,
+            'kills': player.kills,
+            'deaths': player.deaths
+        })
+    return player_list
+
+
+def get_player_by_id():
+    pass
+
+
+def get_player_by_username():
+    pass
+
+
 def setup(conf_root):
     sectors = conf_root.find('sectors').findall('sector')
     factions = conf_root.find('factions').findall('faction')
@@ -144,7 +192,7 @@ def setup(conf_root):
 def create_tables():
     # create tables
     with db:
-        db.create_tables([Faction, Sector, Border, Score])
+        db.create_tables([Faction, Sector, Border, Score, Player])
 
 
 def create_factions(factions):
