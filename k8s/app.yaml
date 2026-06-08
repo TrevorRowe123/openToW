@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opentow-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opentow-web
+  template:
+    metadata:
+      labels:
+        app: opentow-web
+    spec:
+      initContainers:
+        - name: init-db
+          image: opentow:latest
+          imagePullPolicy: IfNotPresent
+          command: ["python", "opentow.py", "init"]
+          env:
+            - name: DATABASE_URL
+              value: "postgres://opentow:opentowpass@opentow-db:5432/opentowdb"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config.default.xml
+              subPath: config.default.xml
+      containers:
+        - name: opentow-api
+          image: opentow:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: APP_MODE
+              value: "web"
+            - name: DATABASE_URL
+              value: "postgres://opentow:opentowpass@opentow-db:5432/opentowdb"
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config.default.xml
+              subPath: config.default.xml
+      volumes:
+        - name: config-volume
+          configMap:
+            name: opentow-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: opentow-web-svc
+spec:
+  type: LoadBalancer
+  selector:
+    app: opentow-web
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

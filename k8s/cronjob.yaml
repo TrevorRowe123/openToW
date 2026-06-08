@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: opentow-tick
+spec:
+  schedule: "* * * * *" # Runs every minute
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: opentow-tick
+              image: opentow:latest
+              imagePullPolicy: IfNotPresent
+              command: ["python", "opentow.py", "tick"]
+              env:
+                - name: DATABASE_URL
+                  value: "postgres://opentow:opentowpass@opentow-db:5432/opentowdb"
+              volumeMounts:
+                - name: config-volume
+                  mountPath: /app/config.default.xml
+                  subPath: config.default.xml
+          volumes:
+            - name: config-volume
+              configMap:
+                name: opentow-config
