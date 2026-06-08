@@ -1,55 +1,51 @@
-from lib import queries
-from lib.api import api
-from lib.timer import *
+import argparse
 import os
 import shutil
 import xml.etree.ElementTree as Et
 
+from lib import queries
+from lib.api import api
+from lib.timer import RepeatedTimer
 
-def main():
-    global game_timer
+game_timer = None
 
+
+def init():
     if not os.path.exists('config'):
         shutil.copyfile('config.default.xml', 'config')
 
     conf_tree = Et.parse('config')
     conf_root = conf_tree.getroot()
-    conf_settings = conf_root.find('settings')
-    conf_timer = int(conf_settings.find('timer').text)
 
     if api.generate_tokens(conf_root):
         conf_tree.write('config')
 
-    if not os.path.exists('openToW.sqlite'):
-        queries.setup(conf_root)
-
-    reset()
-    api.start(
-        conf_settings.find('ip').text,
-        conf_settings.find('port').text
-    )
-    game_timer = RepeatedTimer(conf_timer, reset)
-    menu_loop()
+    queries.setup(conf_root)
+    print("Database setup complete.")
+    return conf_root
 
 
-def reset():
-    # api.stop()
+def tick():
     queries.update_sectors()
     winner = queries.winner()
-    if not winner:
-        pass
-    else:
+    if winner:
         queries.add_win(winner)
         queries.new_game()
-        reset()
-    # api.start()
+        tick()
+    print("Tick complete.")
     
-    
+
+def reset():
+    tick()
+
+
 def shutdown():
-    game_timer.stop()
+    global game_timer
+    if game_timer:
+        game_timer.stop()
     api.stop()
     raise SystemExit
-    
+
 
 def menu_loop():
     while True:
@@ -59,6 +55,7 @@ def menu_loop():
 
 
 def menu_handler(response):
+    menu_options = {'0': shutdown}
     try:
         menu_options[response]()
     except KeyError:
@@ -68,12 +65,31 @@ def menu_handler(response):
 def print_menu():
     print("MAIN MENU:")
     print('0: Quit openTow')
-        
-        
-menu_options = {
-    '0': shutdown
-}
+
+
+def standalone():
+    global game_timer
+    conf_root = init()
+    conf_settings = conf_root.find('settings')
+    conf_timer = int(conf_settings.find('timer').text)
     
+    api.start(conf_settings.find('ip').text, conf_settings.find('port').text)
+    game_timer = RepeatedTimer(conf_timer, reset)
+    menu_loop()
+
+
+def main():
+    parser = argparse.ArgumentParser(description="openToW management CLI")
+    parser.add_argument('command', choices=['init', 'tick', 'standalone'], help='Command to run')
+    args = parser.parse_args()
+
+    if args.command == 'init':
+        init()
+    elif args.command == 'tick':
+        tick()
+    elif args.command == 'standalone':
+        standalone()
+
 
 if __name__ == "__main__":
     main()
