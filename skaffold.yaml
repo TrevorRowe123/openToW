@@ -1,0 +1,10 @@
+apiVersion: skaffold/v4beta1
+kind: Config
+metadata:
+  name: opentow
+manifests:
+  rawYaml:
+    - k8s/configmap.yaml
+    - k8s/db.yaml
+    - k8s/app.yaml
+    - k8s/cronjob.yaml

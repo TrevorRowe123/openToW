@@ -1,0 +1,23 @@
+steps:
+# 1. Build the Docker image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/opentow-repo/opentow:$COMMIT_SHA', '.']
+
+# 2. Push the Docker image to Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/opentow-repo/opentow:$COMMIT_SHA']
+
+# 3. Create a release in Cloud Deploy
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+    - 'deploy'
+    - 'releases'
+    - 'create'
+    - 'rel-$SHORT_SHA'
+    - '--delivery-pipeline=opentow-pipeline'
+    - '--region=us-central1'
+    - '--images=opentow-image=us-central1-docker.pkg.dev/$PROJECT_ID/opentow-repo/opentow:$COMMIT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
