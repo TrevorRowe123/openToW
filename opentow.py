@@ -1,6 +1,7 @@
 import argparse
 import os
 import shutil
+import time
 import xml.etree.ElementTree as Et
 
 from lib import queries
@@ -19,6 +20,19 @@ def init():
 
     if api.generate_tokens(conf_root):
         conf_tree.write('config')
+        
+    # Wait for the database to be fully stable before running schema migrations
+    from lib.models import db
+    for i in range(10):
+        try:
+            db.connect(reuse_if_open=True)
+            break
+        except Exception as e:
+            print(f"Database not ready. Retrying in 3 seconds... ({i+1}/10)")
+            time.sleep(3)
+    else:
+        print("Failed to connect to the database after multiple attempts. Exiting.")
+        raise SystemExit(1)
 
     queries.setup(conf_root)
     print("Database setup complete.")
