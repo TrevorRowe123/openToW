@@ -6,3 +6,5 @@ __pycache__/
 openToW.sqlite
 config
 .env
+terraform/
+k8s/

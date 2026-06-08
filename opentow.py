@@ -69,7 +69,10 @@ def menu_loop():
 
 
 def menu_handler(response):
-    menu_options = {'0': shutdown}
+    menu_options = {
+        '0': shutdown,
+        '1': print_tokens
+    }
     try:
         menu_options[response]()
     except KeyError:
@@ -79,6 +82,7 @@ def menu_handler(response):
 def print_menu():
     print("MAIN MENU:")
     print('0: Quit openTow')
+    print('1: Print sector tokens')
 
 
 def standalone():
@@ -92,9 +96,22 @@ def standalone():
     menu_loop()
 
 
+def print_tokens():
+    from peewee import OperationalError
+    from lib.models import Sector, db
+    try:
+        db.connect(reuse_if_open=True)
+        print(f"{'Sector ID':<10} | Token")
+        print("-" * 50)
+        for sector in Sector.select():
+            print(f"{sector.id:<10} | {sector.token}")
+    except OperationalError:
+        print("Database not initialized or sectors table missing. Run 'init' first.")
+
+
 def main():
     parser = argparse.ArgumentParser(description="openToW management CLI")
-    parser.add_argument('command', choices=['init', 'tick', 'standalone'], help='Command to run')
+    parser.add_argument('command', choices=['init', 'tick', 'standalone', 'tokens'], help='Command to run')
     args = parser.parse_args()
 
     if args.command == 'init':
@@ -103,6 +120,8 @@ def main():
         tick()
     elif args.command == 'standalone':
         standalone()
+    elif args.command == 'tokens':
+        print_tokens()
 
 
 if __name__ == "__main__":
