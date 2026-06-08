@@ -1,6 +1,10 @@
+import os
 from peewee import *
+# noinspection PyUnresolvedReferences
+from playhouse.db_url import connect
 
-db = SqliteDatabase("openToW.sqlite")
+db_url = os.environ.get('DATABASE_URL', 'sqlite:///openToW.sqlite')
+db = connect(db_url)
 
 
 class BaseModel(Model):

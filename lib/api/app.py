@@ -1,9 +1,11 @@
 from flask import Flask
+from flask_cors import CORS
 import lib.api.border as border
 import lib.api.faction as faction
 import lib.api.sector as sector
 
 app = Flask(__name__)
+CORS(app)
 
 # Border Routes
 app.add_url_rule('/border/', view_func=border.get_borders, methods=['GET'])

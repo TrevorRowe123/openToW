@@ -1,24 +1,17 @@
 import threading
-
-from cheroot.wsgi import PathInfoDispatcher, Server
-from flask_cors import CORS
-
-from lib.api.app import app
 import secrets
 import xml.etree.ElementTree as Et
+from cheroot.wsgi import PathInfoDispatcher, Server
+from lib.api.app import app
 
 server: Server
 
 
 def start(server_ip: str, server_port: str) -> None:
     global server
-    CORS(app)
     dispatcher = PathInfoDispatcher({'/': app})
     server = Server(
-        (
-            server_ip,
-            int(server_port)
-        ),
+        (server_ip, int(server_port)),
         dispatcher
     )
     server.prepare()

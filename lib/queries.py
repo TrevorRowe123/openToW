@@ -151,7 +151,7 @@ def create_factions(factions):
     # create faction records
     with db.atomic():
         for faction in factions:
-            Faction.create(
+            Faction.get_or_create(
                 name=faction.find('name').text
             )
 
@@ -160,12 +160,14 @@ def create_sectors(sectors):
     # create sector records
     with db.atomic():
         for sector in sectors:
-            Sector.create(
+            Sector.get_or_create(
                 id=sector.find('id').text,
-                owner_faction=Faction.get_by_id(sector.find('startOwner').text),
-                owner_faction_default=Faction.get_by_id(sector.find('startOwner').text),
-                token=sector.find('token').text,
-                active=False
+                defaults={
+                    'owner_faction': Faction.get_by_id(sector.find('startOwner').text),
+                    'owner_faction_default': Faction.get_by_id(sector.find('startOwner').text),
+                    'token': sector.find('token').text,
+                    'active': False
+                }
             )
 
 
@@ -189,10 +191,10 @@ def create_scores():
     with db.atomic():
         for faction_key in Faction.select():
             for sector_key in Sector.select():
-                Score.create(
+                Score.get_or_create(
                     sector=sector_key,
                     faction=faction_key,
-                    score=0
+                    defaults={'score': 0}
                 )
 
 
