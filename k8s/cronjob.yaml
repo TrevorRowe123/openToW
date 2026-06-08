@@ -12,7 +12,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: opentow-tick
-              image: opentow:latest
+              image: us-central1-docker.pkg.dev/opentow-498815/opentow-repo/opentow:latest
               imagePullPolicy: IfNotPresent
               command: ["python", "opentow.py", "tick"]
               env:
