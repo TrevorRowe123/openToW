@@ -17,7 +17,10 @@ spec:
               command: ["python", "opentow.py", "tick"]
               env:
                 - name: DATABASE_URL
-                  value: "postgres://opentow:opentowpass@opentow-db:5432/opentowdb"
+                  valueFrom:
+                    secretKeyRef:
+                      name: opentow-db-secret
+                      key: DATABASE_URL
               volumeMounts:
                 - name: config-volume
                   mountPath: /app/config.default.xml

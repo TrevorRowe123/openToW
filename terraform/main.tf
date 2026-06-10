@@ -4,6 +4,14 @@ terraform {
       source  = "hashicorp/google"
       version = "~> 4.80"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.20"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.5"
+    }
   }
 }
 
@@ -84,4 +92,26 @@ resource "google_container_cluster" "primary" {
   enable_autopilot = true
 
   depends_on = [google_project_service.container]
+}
+
+# Kubernetes Provider Authentication
+data "google_client_config" "default" {}
+
+provider "kubernetes" {
+  host                   = "https://${google_container_cluster.primary.endpoint}"
+  token                  = data.google_client_config.default.access_token
+  cluster_ca_certificate = base64decode(google_container_cluster.primary.master_auth[0].cluster_ca_certificate)
+}
+
+# Create the Kubernetes Secret for the Database URL
+resource "kubernetes_secret" "db_credentials" {
+  metadata {
+    name = "opentow-db-secret"
+  }
+
+  data = {
+    DATABASE_URL = "postgres://${google_sql_user.user.name}:${random_password.db_password.result}@${google_sql_database_instance.instance.private_ip_address}:5432/${google_sql_database.database.name}"
+  }
+
+  depends_on = [google_container_cluster.primary, google_sql_database_instance.instance]
 }

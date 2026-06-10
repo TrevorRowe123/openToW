@@ -19,7 +19,10 @@ spec:
           command: ["python", "opentow.py", "init"]
           env:
             - name: DATABASE_URL
-              value: "postgres://opentow:opentowpass@opentow-db:5432/opentowdb"
+              valueFrom:
+                secretKeyRef:
+                  name: opentow-db-secret
+                  key: DATABASE_URL
           volumeMounts:
             - name: config-volume
               mountPath: /app/config.default.xml
@@ -32,7 +35,10 @@ spec:
             - name: APP_MODE
               value: "web"
             - name: DATABASE_URL
-              value: "postgres://opentow:opentowpass@opentow-db:5432/opentowdb"
+              valueFrom:
+                secretKeyRef:
+                  name: opentow-db-secret
+                  key: DATABASE_URL
           ports:
             - containerPort: 8080
           volumeMounts:
